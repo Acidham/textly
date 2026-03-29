@@ -1,6 +1,26 @@
 import SwiftUI
 import AppKit
 
+// MARK: - Native AppKit tooltip
+
+private struct TooltipNSView: NSViewRepresentable {
+    let text: String
+    func makeNSView(context: Context) -> NSView {
+        let v = NSView()
+        v.toolTip = text
+        return v
+    }
+    func updateNSView(_ nsView: NSView, context: Context) {
+        nsView.toolTip = text
+    }
+}
+
+extension View {
+    func tooltip(_ text: String) -> some View {
+        self.background(TooltipNSView(text: text))
+    }
+}
+
 // MARK: - GitHub dark palette
 
 extension Color {
@@ -99,20 +119,20 @@ struct ContentView: View {
                             .offset(x: 6, y: -4)
                     }
                 }
-                .help("Undo last transformation (\(undoStack.count) available)")
+                .tooltip("Undo last transformation (\(undoStack.count) available)")
 
                 Button { copyToClipboard() } label: {
                     Label(showCopied ? "Copied" : "Copy", systemImage: showCopied ? "checkmark" : "doc.on.doc")
                 }
                 .disabled(editorText.isEmpty)
-                .help("Copy to clipboard")
+                .tooltip("Copy to clipboard")
                 .animation(.easeInOut(duration: 0.15), value: showCopied)
 
                 Button { clearAll() } label: {
                     Label("Clear", systemImage: "trash")
                 }
                 .disabled(editorText.isEmpty)
-                .help("Clear all")
+                .tooltip("Clear all")
 
                 Rectangle()
                     .fill(Color.ghBorder)
@@ -121,12 +141,12 @@ struct ContentView: View {
                 Button { withAnimation(.easeInOut(duration: 0.2)) { showSidebar.toggle() } } label: {
                     Label("Recent", systemImage: "clock")
                 }
-                .help(showSidebar ? "Hide recent" : "Show recent")
+                .tooltip(showSidebar ? "Hide recent" : "Show recent")
 
                 Button { showHelp = true } label: {
                     Label("Help", systemImage: "questionmark.circle")
                 }
-                .help("Textly Help")
+                .tooltip("Textly Help")
                 .padding(.leading, 8)
             }
         }
