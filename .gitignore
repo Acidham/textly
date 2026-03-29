@@ -1,0 +1,28 @@
+# Build output
+.build/
+*.o
+*.d
+
+# Xcode
+*.xcworkspace
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcarchive
+.swiftpm/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Temp
+*.tmp
+*.bak
